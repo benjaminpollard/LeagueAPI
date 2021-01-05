@@ -47,15 +47,15 @@ internal class DataDragonRequester {
         }
     }
     
-    public func getChampionsDetails(completion: @escaping (DDragonChampionsFile?, String?) -> Void) {
+    public func getChampionsDetails(iso : String,completion: @escaping (DDragonChampionsFile?, String?) -> Void) {
         if let championsDetails = championsDetails {
             completion(championsDetails, nil)
         }
         else {
             getDataVersions() { (versions, error) in
                 guard let versions = versions else { completion(nil, error); return }
-                let championsUrl: String = "\(ServicesUrl.DDragonCdn)/\(versions.champion)/data/en_US/champion.json"
-                RESTRequester().requestObject(.GET, url: championsUrl, headers: self.AcceptCharsetUtf8, asType: DDragonChampionsFile.self) { (championsDetails, _, _, error) in
+                let championsUrl: String = "\(ServicesUrl.DDragonCdn)/\(versions.champion)/data/\(iso)/champion.json"
+                               RESTRequester().requestObject(.GET, url: championsUrl, headers: self.AcceptCharsetUtf8, asType: DDragonChampionsFile.self) { (championsDetails, _, _, error) in
                     self.championsDetails = championsDetails
                     completion(championsDetails, error)
                 }
