@@ -10,63 +10,63 @@ import Foundation
 
 internal class DataDragonChampionBusiness {
     
-    public static func getChampionDetails(by championId: ChampionId, completion: @escaping (ChampionDetails?, String?) -> Void) {
+    public static func getChampionDetails(iso : String,by championId: ChampionId, completion: @escaping (ChampionDetails?, String?) -> Void) {
         let filterFunction: ((String, ChampionsDetails)) -> Bool = { (keyValue) -> Bool in
             let (_, value) = keyValue
             return value.championId == championId
         }
         let filterEqualValue: String = "id=\(championId)"
-        getChampionDetails(filterFunction: filterFunction, filterEqualValue: filterEqualValue, completion: completion)
+        getChampionDetails(iso: iso,filterFunction: filterFunction, filterEqualValue: filterEqualValue, completion: completion)
     }
     
-    public static func getChampionDetails(byName name: String, completion: @escaping (ChampionDetails?, String?) -> Void) {
+    public static func getChampionDetails(iso : String,byName name: String, completion: @escaping (ChampionDetails?, String?) -> Void) {
         let filterFunction: ((String, ChampionsDetails)) -> Bool = { (keyValue) -> Bool in
             let (_, value) = keyValue
             return value.name.equals(name) || value.championIdName.equals(name)
         }
         let filterEqualValue: String = "name=\(name)"
-        getChampionDetails(filterFunction: filterFunction, filterEqualValue: filterEqualValue, completion: completion)
+        getChampionDetails(iso: iso,filterFunction: filterFunction, filterEqualValue: filterEqualValue, completion: completion)
     }
     
-    public static func getAllChampionIds(completion: @escaping ([ChampionId]?, String?) -> Void) {
-        getAllChampions() { (champions, error) in
+    public static func getAllChampionIds(iso : String,completion: @escaping ([ChampionId]?, String?) -> Void) {
+        getAllChampions(iso: iso) { (champions, error) in
             completion(champions?.map { return $0.championId }, error)
         }
     }
     
-    public static func getAllChampionNames(completion: @escaping ([String]?, String?) -> Void) {
-        getAllChampions() { (champions, error) in
+    public static func getAllChampionNames(iso : String,completion: @escaping ([String]?, String?) -> Void) {
+        getAllChampions(iso: iso) { (champions, error) in
             completion(champions?.map { return $0.name }, error)
         }
     }
     
-    public static func getChampions(for role: ChampionRole, completion: @escaping ([String]?, String?) -> Void) {
+    public static func getChampions(iso: String,for role: ChampionRole, completion: @escaping ([String]?, String?) -> Void) {
         let filterFunction: ((String, ChampionsDetails)) -> Bool = { (keyValue) -> Bool in
             let (_, value) = keyValue
             return value.roles.contains { $0 == role }
         }
-        getChampionsFiltered(filterFunction: filterFunction) { (champions, error) in
+        getChampionsFiltered(iso: iso,filterFunction: filterFunction) { (champions, error) in
             completion(champions?.map { return $0.name }, error)
         }
     }
     
-    private static func getAllChampions(completion: @escaping ([ChampionsDetails]?, String?) -> Void) {
+    private static func getAllChampions(iso: String, completion: @escaping ([ChampionsDetails]?, String?) -> Void) {
         let filterFunction: ((String, ChampionsDetails)) -> Bool = { (_) -> Bool in
             return true
         }
-        getChampionsFiltered(filterFunction: filterFunction) { (champions, error) in
+        getChampionsFiltered(iso: iso,filterFunction: filterFunction) { (champions, error) in
             completion(champions, error)
         }
     }
     
-    private static func getChampionsFiltered(filterFunction: @escaping ((String, ChampionsDetails)) -> Bool, completion: @escaping ([ChampionsDetails]?, String?) -> Void) {
-        DataDragonRequester.instance.getChampionsDetails("en_us") { (champions, error) in
+    private static func getChampionsFiltered(iso : String , filterFunction: @escaping ((String, ChampionsDetails)) -> Bool, completion: @escaping ([ChampionsDetails]?, String?) -> Void) {
+        DataDragonRequester.instance.getChampionsDetails(iso: iso) { (champions, error) in
             completion(champions?.champions.filter(filterFunction).map { return $0.value }, error)
         }
     }
     
-    private static func getChampionDetails(filterFunction: @escaping ((String, ChampionsDetails)) -> Bool, filterEqualValue: String = "", completion: @escaping (ChampionDetails?, String?) -> Void) {
-        getChampionsFiltered(filterFunction: filterFunction) { (champions, error) in
+    private static func getChampionDetails(iso: String, filterFunction: @escaping ((String, ChampionsDetails)) -> Bool, filterEqualValue: String = "", completion: @escaping (ChampionDetails?, String?) -> Void) {
+        getChampionsFiltered(iso: iso,filterFunction: filterFunction) { (champions, error) in
             if let champions = champions {
                 if let championWithFilter = champions.first {
                     let championIdName: String = championWithFilter.championIdName
