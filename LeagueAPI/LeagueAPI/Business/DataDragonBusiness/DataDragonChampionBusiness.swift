@@ -60,7 +60,7 @@ internal class DataDragonChampionBusiness {
     }
     
     private static func getChampionsFiltered(filterFunction: @escaping ((String, ChampionsDetails)) -> Bool, completion: @escaping ([ChampionsDetails]?, String?) -> Void) {
-        DataDragonRequester.instance.getChampionsDetails() { (champions, error) in
+        DataDragonRequester.instance.getChampionsDetails("en_us") { (champions, error) in
             completion(champions?.champions.filter(filterFunction).map { return $0.value }, error)
         }
     }
