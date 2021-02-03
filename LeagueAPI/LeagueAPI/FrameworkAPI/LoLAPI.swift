@@ -252,24 +252,24 @@ public class LoLAPI: APIClient {
     
     // MARK: - Champion
     
-    public func getChampionDetails(by championId: ChampionId, handler: @escaping (ChampionDetails?, String?) -> Void) {
-        DataDragonChampionBusiness.getChampionDetails(by: championId, completion: handler)
+    public func getChampionDetails(iso: String,by championId: ChampionId, handler: @escaping (ChampionDetails?, String?) -> Void) {
+        DataDragonChampionBusiness.getChampionDetails(iso: iso,by: championId, completion: handler)
     }
     
-    public func getChampionDetails(byName name: String, handler: @escaping (ChampionDetails?, String?) -> Void) {
-        DataDragonChampionBusiness.getChampionDetails(byName: name, completion: handler)
+    public func getChampionDetails(iso: String,byName name: String, handler: @escaping (ChampionDetails?, String?) -> Void) {
+        DataDragonChampionBusiness.getChampionDetails(iso: iso,byName: name, completion: handler)
     }
     
-    public func getAllChampionIds(handler: @escaping ([ChampionId]?, String?) -> Void) {
-        DataDragonChampionBusiness.getAllChampionIds(completion: handler)
+    public func getAllChampionIds(iso: String,handler: @escaping ([ChampionId]?, String?) -> Void) {
+        DataDragonChampionBusiness.getAllChampionIds(iso: iso,completion: handler)
     }
     
-    public func getAllChampionNames(handler: @escaping ([String]?, String?) -> Void) {
-        DataDragonChampionBusiness.getAllChampionNames(completion: handler)
+    public func getAllChampionNames(iso: String,handler: @escaping ([String]?, String?) -> Void) {
+        DataDragonChampionBusiness.getAllChampionNames(iso: iso,completion: handler)
     }
     
-    public func getChampionNames(for role: ChampionRole, handler: @escaping ([String]?, String?) -> Void) {
-        DataDragonChampionBusiness.getChampions(for: role, completion: handler)
+    public func getChampionNames(iso: String,for role: ChampionRole, handler: @escaping ([String]?, String?) -> Void) {
+        DataDragonChampionBusiness.getChampions(iso: iso,for: role, completion: handler)
     }
     
     // MARK: - Profile Icon
